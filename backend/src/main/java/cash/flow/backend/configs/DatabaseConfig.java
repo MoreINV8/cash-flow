@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -55,23 +57,36 @@ public class DatabaseConfig {
             try {
                 Connection connection = dataSource.getConnection();
 
-                FileReader fileReader = new FileReader("src/main/resources/schema.sql");
+                // FileReader fileReader = new FileReader("src/main/resources/schema.sql");
 
-                try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-                    String line = null;
-                    String sqlCommand = "";
+                // Read file
 
-                    while ((line = bufferedReader.readLine()) != null) {
-                        sqlCommand += line.strip() + " ";
-                    }
+                InputStream inputStream = getClass().getClassLoader().getResourceAsStream("schema.sql");
 
-                    for (String command : sqlCommand.split(";")) {
-                        if (!command.trim().isEmpty()) {
-                            System.out.println("Executing command: " + command);
-                            connection.createStatement().execute(command);
-                        }
+                if (inputStream == null) {
+                    throw new FileNotFoundException("Schema file not found in classpath");
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader fileReader = new BufferedReader(inputStreamReader);
+
+                // try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+
+                // Execute SQL commands from the file
+                String line = null;
+                String sqlCommand = "";
+
+                while ((line = fileReader.readLine()) != null) {
+                    sqlCommand += line.strip() + " ";
+                }
+
+                for (String command : sqlCommand.split(";")) {
+                    if (!command.trim().isEmpty()) {
+                        System.out.println("Executing command: " + command);
+                        connection.createStatement().execute(command);
                     }
                 }
+                // }
 
             } catch (SQLException e) {
                 throw new RuntimeException("Failed to connect to the database", e);
