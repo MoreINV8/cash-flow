@@ -55,9 +55,9 @@ public class DatabaseConfig {
             try {
                 Connection connection = dataSource.getConnection();
 
-                FileReader FileReader = new FileReader("src/main/resources/schema.sql");
+                FileReader fileReader = new FileReader("src/main/resources/schema.sql");
 
-                try (BufferedReader bufferedReader = new BufferedReader(FileReader)) {
+                try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
                     String line = null;
                     String sqlCommand = "";
 
