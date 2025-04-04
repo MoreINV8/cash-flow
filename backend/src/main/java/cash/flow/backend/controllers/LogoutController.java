@@ -16,8 +16,8 @@ public class LogoutController {
     private UserService userService;
 
     @PostMapping("/")
-    public ResponseEntity<?> logout(@RequestParam String u) {
-        boolean result = userService.logoutUser(u);
+    public ResponseEntity<?> logout(@RequestParam String username) {
+        boolean result = userService.logoutUser(username);
         if (result) {
             return ResponseEntity.ok("Logout successful");
         } else {

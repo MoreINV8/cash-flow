@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import cash.flow.backend.models.User;
-import cash.flow.backend.models.UserPrinciple;
+import cash.flow.backend.models.UserPrincipal;
 import cash.flow.backend.repositories.UserRepository;
 
 @Service
@@ -25,7 +25,7 @@ public class CustomUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
-        return new UserPrinciple(user);
+        return new UserPrincipal(user);
     }
     
 
