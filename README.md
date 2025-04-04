@@ -3,8 +3,8 @@
 an application usin for record your spending money and visualized your financial status !!!!
 
 ## How to run backend service
-1. using marven to install packet `mvn -U clean install`
-2. using marven to run service `mvn spring-boot:run`
+1. using Maven to install packege `mvn -U clean install`
+2. using Maven to run service `mvn spring-boot:run`
 
 ## Learning Backend Java Spring Boot
 - Using database without JBC and JDBC Template [video](https://youtu.be/KgXq2UBNEhA?si=c1XQwv8pgCT0Gm9r)
@@ -14,7 +14,7 @@ an application usin for record your spending money and visualized your financial
 - Unit testing
   - use `@profile(__profile name__)` to set scope enable configuration
 - Security config [video](https://youtu.be/oeni_9g7too?si=7JW5lhgym-do-iRU)
-  - use `@EnableWebSecurity` to let spring boot use this custom configuration instead deafault
+  - use `@EnableWebSecurity` to let spring boot use this custom configuration instead default
   - use `SecurityFilterChain` and `HttpSecurity` parameter to config new custom filter chain
   - add `AuthenticationProvider` to custom default username password login
   - add `AuthenticationManager` to hold and get verify later
