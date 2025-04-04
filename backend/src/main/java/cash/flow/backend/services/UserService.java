@@ -21,6 +21,9 @@ public class UserService {
     @Autowired
     private AuthenticationManager authManager;
 
+    @Autowired
+    private JWTService jwtService;
+
     public boolean signUp(User user) {
         User queryUser = userRepository.getUserByUsername(user.getUsername());
         if (queryUser != null) {
@@ -37,6 +40,9 @@ public class UserService {
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         
         if (auth.isAuthenticated()) {
+            String token = jwtService.generateToken(user.getUsername());
+            System.out.println("JWT Token: " + token);
+            
             return userRepository.getUserByUsername(user.getUsername());
         }
         return null;

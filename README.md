@@ -17,6 +17,10 @@ an application usin for record your spending money and visualized your financial
   - use `@EnableWebSecurity` to let spring boot use this custom configuration instead deafault
   - use `SecurityFilterChain` and `HttpSecurity` parameter to config new custom filter chain
   - add `AuthenticationProvider` to custom default username password login
+  - add `AuthenticationManager` to hold and get verify later
+    - use `AuthenticationManager` in [UserService.java](/backend/src/main/java/cash/flow/backend/services/UserService.java)
+  - implement JWT service to generate and verify token
+    - generate __secret key__ in constructor function _or can use hard code secret key_
 
 > [!IMPORTANT]
 > every configuration object in java spring boot should be `@Autowired` not `new Object()` __except for model classes__
