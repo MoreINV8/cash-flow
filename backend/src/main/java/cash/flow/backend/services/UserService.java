@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import cash.flow.backend.dto.UserDTO;
 import cash.flow.backend.models.User;
 import cash.flow.backend.repositories.UserRepository;
 
@@ -35,15 +36,15 @@ public class UserService {
         }
     }
 
-    public User login(User user) {
+    public UserDTO login(User user) {
         Authentication auth = authManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         
         if (auth.isAuthenticated()) {
             String token = jwtService.generateToken(user.getUsername());
-            System.out.println("JWT Token: " + token);
-            
-            return userRepository.getUserByUsername(user.getUsername());
+
+            User validateUser = userRepository.getUserByUsername(user.getUsername());
+            return new UserDTO(validateUser, token);
         }
         return null;
     }

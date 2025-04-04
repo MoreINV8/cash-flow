@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cash.flow.backend.dto.LoginDTO;
+import cash.flow.backend.dto.UserDTO;
 import cash.flow.backend.models.User;
 import cash.flow.backend.services.UserService;
 
@@ -19,14 +20,14 @@ public class LoginController {
     private UserService userService;
 
     @GetMapping("/")
-    public ResponseEntity<String> login(@RequestBody LoginDTO loginData) {
+    public ResponseEntity<UserDTO> login(@RequestBody LoginDTO loginData) {
         User user = new User(loginData);
-        User loginResult = userService.login(user);
+        UserDTO loginResult = userService.login(user);
 
         if (loginResult != null) {
-            return ResponseEntity.ok("Login successfully!");
+            return ResponseEntity.ok(loginResult);
         }
-        return ResponseEntity.badRequest().body("Something went wrong!");
+        return ResponseEntity.badRequest().body(null);
     }
     
 }
