@@ -44,8 +44,30 @@ public class UserService {
             String token = jwtService.generateToken(user.getUsername());
 
             User validateUser = userRepository.getUserByUsername(user.getUsername());
+            validateUser.setActive(true);
+            userRepository.updateUserStatus(validateUser);
+
             return new UserDTO(validateUser, token);
         }
         return null;
+    }
+
+    public boolean logoutUser(String u) {
+        User user = userRepository.getUserByUsername(u);
+        if (user != null) {
+            user.setActive(false);
+            userRepository.updateUserStatus(user);
+
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isActive(String username) {
+        User user = userRepository.getUserByUsername(username);
+        if (user != null) {
+            return user.isActive();
+        }
+        return false;
     }
 }

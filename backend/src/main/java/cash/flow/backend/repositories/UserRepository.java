@@ -22,7 +22,7 @@ public class UserRepository {
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection
-                    .prepareStatement("SELECT username, pass, email FROM member WHERE username = ?;");
+                    .prepareStatement("SELECT username, pass, email, active FROM member WHERE username = ?;");
 
             statement.setString(1, username);
             
@@ -32,6 +32,7 @@ public class UserRepository {
                 user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("pass"));
                 user.setEmail(resultSet.getString("email"));
+                user.setActive(resultSet.getBoolean("active"));
             }
 
         } catch (SQLException e) {
@@ -44,11 +45,12 @@ public class UserRepository {
     public boolean createUser(User user) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection
-                    .prepareStatement("INSERT INTO member (username, pass, email) VALUES (?, ?, ?);");
+                    .prepareStatement("INSERT INTO member (username, pass, email, active) VALUES (?, ?, ?, ?);");
 
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
+            statement.setBoolean(4, false);
 
             int rowsInserted = statement.executeUpdate();
             
@@ -59,13 +61,14 @@ public class UserRepository {
         }
     }
 
-    public void deleteUser(String username) {
+    public void updateUserStatus(User user) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection
-                    .prepareStatement("DELETE FROM member WHERE username = ?;");
+                    .prepareStatement("UPDATE member SET active = ? WHERE username = ?;");
 
-            statement.setString(1, username);
-            
+            statement.setBoolean(1, user.isActive());
+            statement.setString(2, user.getUsername());
+
             statement.executeUpdate();
 
         } catch (SQLException e) {

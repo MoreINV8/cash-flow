@@ -1,6 +1,7 @@
 package cash.flow.backend.repositorieTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -39,8 +40,18 @@ public class UserRepositoryTest {
     }
 
     @AfterEach
-    void tearDown() {
-        userRepository.deleteUser(user.getUsername());
+    void clearDatabase() {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("SET REFERENTIAL_INTEGRITY FALSE;").execute();
+
+            // Truncate all tables
+            connection.prepareStatement("TRUNCATE TABLE member;").execute();
+
+            // Re-enable foreign key checks
+            connection.prepareStatement("SET REFERENTIAL_INTEGRITY TRUE;").execute();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while connecting to the database", e);
+        }
     }
 
     @Test
@@ -67,5 +78,20 @@ public class UserRepositoryTest {
         assertEquals(user.getUsername(), retrievedUser.getUsername(), "Username should match.");
         assertEquals(user.getPassword(), retrievedUser.getPassword(), "Password should match.");
         assertEquals(user.getEmail(), retrievedUser.getEmail(), "Email should match.");
+        assertFalse(user.isActive());
+    }
+
+    @Test
+    void testUpdateUserStatus() {
+        userRepository.createUser(user);
+        user.setActive(true);
+        userRepository.updateUserStatus(user);
+
+        User updatedUser = userRepository.getUserByUsername("testuser");
+        
+        System.out.println("Updating user status: " + user);
+        System.out.println("Updated user status: " + updatedUser);
+
+        assertEquals(true, updatedUser.isActive(), "User status should be updated to active.");
     }
 }

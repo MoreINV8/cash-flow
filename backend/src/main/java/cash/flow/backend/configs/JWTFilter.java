@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import cash.flow.backend.services.CustomUserDetailService;
 import cash.flow.backend.services.JWTService;
+import cash.flow.backend.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,12 +30,18 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        System.out.println("JWTFilter invoked for: " + request.getRequestURI());
+
         String authHeader = request.getHeader("Authorization");
-        
+
         String jwtToken = null;
         String username = null;
 
+        System.out.println("Authorization Header: " + authHeader);
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            // getting the token from the header
             jwtToken = authHeader.substring(7);
             username = jwtService.extractUsername(jwtToken);
         }
@@ -42,6 +49,15 @@ public class JWTFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = context.getBean(CustomUserDetailService.class).loadUserByUsername(username);
+            UserService userService = context.getBean(UserService.class);
+
+            // Check if the user is active (logged in?)
+            if (!userService.isActive(username)) {
+                System.out.println("User is inactive: " + username);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("User is inactive");
+                return;
+            }
 
             if (jwtService.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
@@ -54,5 +70,5 @@ public class JWTFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-    
+
 }

@@ -13,6 +13,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private boolean active;
 
     public User(SignupDTO signupDTO) {
         this.username = signupDTO.getUsername();
