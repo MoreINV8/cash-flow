@@ -13,12 +13,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import cash.flow.backend.services.CustomUserDetailService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Autowired
+    private JWTFilter jwtFilter;
 
     @Autowired
     private CustomUserDetailService customUserDetailService;
@@ -33,11 +36,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(customizer -> customizer
                         .requestMatchers("/api/login/").permitAll()
                         .requestMatchers("/api/signup/").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-    
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
