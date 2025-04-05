@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cash.flow.backend.dto.DayCreateDTO;
+import cash.flow.backend.dto.MonthCreateDTO;
 import cash.flow.backend.dto.noted.NotedDTO;
 import cash.flow.backend.services.NoteService;
 
@@ -29,6 +30,16 @@ public class TakeNoteController {
             return ResponseEntity.badRequest().body("Something went wrong!");
         } else {
             return ResponseEntity.ok(notedDTO);
+        }
+    }
+
+    @PostMapping("/month")
+    public ResponseEntity<?> createMonth(@RequestBody MonthCreateDTO dayCreateDTO) {
+        boolean isSuccess = noteService.createMonth(dayCreateDTO);
+        if (isSuccess) {
+            return ResponseEntity.ok("Month created successfully!");
+        } else {
+            return ResponseEntity.badRequest().body("Something went wrong!");
         }
     }
 

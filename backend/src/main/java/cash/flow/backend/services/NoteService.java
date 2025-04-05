@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cash.flow.backend.dto.DayCreateDTO;
+import cash.flow.backend.dto.MonthCreateDTO;
 import cash.flow.backend.dto.noted.CategoryDTO;
 import cash.flow.backend.dto.noted.DayDTO;
 import cash.flow.backend.dto.noted.MonthDTO;
@@ -82,6 +83,18 @@ public class NoteService {
         notedDTO.setLatest_month_days(dayDTOs);
         notedDTO.setCategories(categoryDTOs);
         return notedDTO;
+    }
+
+    public boolean createMonth(MonthCreateDTO monthCreateDTO) {
+        Month request = monthCreateDTO.getMonth();
+        Month month = monthRepository
+                .getMonthByNIdYearMonth(request.getNoteFk(), request.getYear(),
+                        request.getMonth());
+        if (month != null) {
+            return false;
+        }
+
+        return monthRepository.createMonth(request);
     }
 
     public boolean createNote(String username) {
