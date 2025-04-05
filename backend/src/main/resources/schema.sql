@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS days (
     detail VARCHAR(255) NOT NULL,
     transaction_value DECIMAL(10, 2) NOT NULL,
     note VARCHAR(255),
+    noted_date DATE NOT NULL,
     month_fk CHAR(32) NOT NULL,
     category_fk CHAR(32),
 

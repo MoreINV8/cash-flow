@@ -25,7 +25,8 @@ public class UserRepository {
                     .prepareStatement("SELECT username, pass, email, active FROM member WHERE username = ?;");
 
             statement.setString(1, username);
-            
+
+            System.out.println("Excecute Statement: " + statement.toString());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 user = new User();
@@ -41,7 +42,7 @@ public class UserRepository {
 
         return user;
     }
-    
+
     public boolean createUser(User user) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection
@@ -52,8 +53,9 @@ public class UserRepository {
             statement.setString(3, user.getEmail());
             statement.setBoolean(4, false);
 
+            System.out.println("Excecute Statement: " + statement.toString());
             int rowsInserted = statement.executeUpdate();
-            
+
             return rowsInserted > 0;
 
         } catch (SQLException e) {
@@ -69,6 +71,7 @@ public class UserRepository {
             statement.setBoolean(1, user.isActive());
             statement.setString(2, user.getUsername());
 
+            System.out.println("Excecute Statement: " + statement.toString());
             statement.executeUpdate();
 
         } catch (SQLException e) {

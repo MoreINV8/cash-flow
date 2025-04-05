@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cash.flow.backend.dto.SignupDTO;
 import cash.flow.backend.models.User;
+import cash.flow.backend.services.NoteService;
 import cash.flow.backend.services.UserService;
 
 @RestController
@@ -17,14 +18,23 @@ public class SignupController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/")
+    @Autowired
+    private NoteService noteService;
+
+    @PostMapping
     public ResponseEntity<String> signup(@RequestBody SignupDTO signupData) {
         User user = new User(signupData);
 
         boolean isSuccess = userService.signUp(user);
 
         if (isSuccess) {
-            return ResponseEntity.ok("User created successfully!");
+            boolean createdNote = noteService.createNote(user.getUsername());
+
+            if (!createdNote) {
+                return ResponseEntity.badRequest().body("Note creation failed!");
+            }
+
+            return ResponseEntity.ok("User and Note created successfully!");
         }
         return ResponseEntity.badRequest().body("Something went wrong!");
     }

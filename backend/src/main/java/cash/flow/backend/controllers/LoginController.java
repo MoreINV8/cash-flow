@@ -19,7 +19,7 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<UserDTO> login(@RequestBody LoginDTO loginData) {
         User user = new User(loginData);
         UserDTO loginResult = userService.login(user);

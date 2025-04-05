@@ -15,7 +15,7 @@ public class LogoutController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> logout(@RequestParam String username) {
         boolean result = userService.logoutUser(username);
         if (result) {

@@ -4,6 +4,10 @@ import java.util.UUID;
 
 public class Helper {
     public static String getStringUUID(UUID uuid) {
+        if (uuid == null) {
+            return null;
+        }
+
         return uuid.toString().replace("-", "");
     }
 
@@ -12,7 +16,7 @@ public class Helper {
     }
 
     public static UUID convertUUID(String uuid) {
-        if (uuid.length() != 32)
+        if (uuid == null || uuid.length() != 32)
             return null;
 
         String covered = "";
