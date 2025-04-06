@@ -9,7 +9,7 @@ import lombok.Data;
 public class Day {
     private UUID dId;
     private String detail;
-    private int transactionValue;
+    private double transactionValue;
     private String note;
     private Date date;
 

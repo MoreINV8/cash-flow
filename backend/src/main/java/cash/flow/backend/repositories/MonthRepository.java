@@ -96,4 +96,29 @@ public class MonthRepository {
         }
     }
     
+    public Month getMonthByMId(UUID convertUUID) {
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection
+            .prepareStatement("SELECT m_id, years, months, note_fk FROM months WHERE m_id = ?;");
+            
+            statement.setString(1, Helper.getStringUUID(convertUUID));
+            
+            System.out.println("Excecute Statement: " + statement.toString());
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                Month month = new Month();
+                month.setMId(Helper.convertUUID(result.getString("m_id")));
+                month.setMonth(result.getInt("months"));
+                month.setYear(result.getInt("years"));
+
+                return month;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while connecting to the database", e);
+        }
+        return null;
+    }
+    
 }

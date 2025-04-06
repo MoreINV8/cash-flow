@@ -11,7 +11,7 @@ public class DayDTO {
     private String d_id;
     private Date date;
     private String detail;
-    private int transaction_value;
+    private double transaction_value;
     private String note;
     private String category_name;
     private String category_color;

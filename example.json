@@ -1,0 +1,48 @@
+{
+  "month": "2025-04",
+  "summary": {
+    "total_spending": 1234.56,
+    "average_daily_spending": 41.15,
+    "days_tracked": 30,
+    "total_records": 52
+  },
+  "category_breakdown": [
+    {
+      "category": "Food",
+      "total": 500.0,
+      "percentage": 40.5,
+      "record_count": 20
+    },
+    {
+      "category": "Transport",
+      "total": 200.0,
+      "percentage": 16.2,
+      "record_count": 8
+    },
+    {
+      "category": null,
+      "total": 100.0,
+      "percentage": 8.1,
+      "record_count": 4
+    }
+  ],
+  "daily_spending": [
+    { "date": "2025-04-01", "total": 35.0, "total_item":8 },
+    { "date": "2025-04-02", "total": 12.0, "total_item":1 },
+    { "date": "2025-04-30", "total": 50.5, "total_item":5 }
+  ],
+  "top_spending_records": [
+    {
+      "amount": 250.0,
+      "note": "New headphones",
+      "category": "Electronics",
+      "date": "2025-04-12"
+    },
+    {
+      "amount": 180.0,
+      "note": "Grocery stock-up",
+      "category": "Food",
+      "date": "2025-04-05"
+    }
+  ]
+}

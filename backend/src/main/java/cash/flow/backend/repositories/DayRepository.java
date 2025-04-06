@@ -66,7 +66,7 @@ public class DayRepository {
                 
                 statement.setString(1, Helper.getStringUUID());
                 statement.setString(2, day.getDetail());
-                statement.setInt(3, day.getTransactionValue());
+                statement.setDouble(3, day.getTransactionValue());
                 statement.setString(4, day.getNote());
                 statement.setString(5, Helper.getStringUUID(day.getMonthFk()));
                 statement.setString(6, Helper.getStringUUID(day.getCategoryFk()));
@@ -87,7 +87,7 @@ public class DayRepository {
                     "UPDATE days SET detail = ?, transaction_value = ?, note = ?, category_fk = ?, noted_date = ? WHERE d_id = ?;");
                     
                     statement.setString(1, day.getDetail());
-                    statement.setInt(2, day.getTransactionValue());
+                    statement.setDouble(2, day.getTransactionValue());
                     statement.setString(3, day.getNote());
                     statement.setString(4, Helper.getStringUUID(day.getCategoryFk()));
                     statement.setDate(5, day.getDate());
