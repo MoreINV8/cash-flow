@@ -97,6 +97,17 @@ public class NoteService {
         return monthRepository.createMonth(request);
     }
 
+    public List<DayDTO> changeMonth(String monthId) {
+        List<DayDTO> days = new ArrayList<>();
+
+        for (Day day : dayRepository.getDaysByMonth(Helper.convertUUID(monthId))) {
+            DayDTO dayDTO = new DayDTO(day);
+            days.add(dayDTO);
+        }
+        
+        return days;
+    }
+
     public boolean createNote(String username) {
         return noteRepository.createNote(username);
     }

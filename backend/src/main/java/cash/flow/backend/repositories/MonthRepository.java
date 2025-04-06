@@ -95,4 +95,5 @@ public class MonthRepository {
             throw new RuntimeException("Error while connecting to the database", e);
         }
     }
+    
 }

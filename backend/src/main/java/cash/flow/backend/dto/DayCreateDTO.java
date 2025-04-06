@@ -2,8 +2,6 @@ package cash.flow.backend.dto;
 
 import java.sql.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import cash.flow.backend.models.Day;
 import cash.flow.backend.utils.Helper;
 import lombok.Data;

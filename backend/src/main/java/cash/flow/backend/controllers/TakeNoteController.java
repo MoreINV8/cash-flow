@@ -1,5 +1,7 @@
 package cash.flow.backend.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cash.flow.backend.dto.DayCreateDTO;
 import cash.flow.backend.dto.MonthCreateDTO;
+import cash.flow.backend.dto.noted.DayDTO;
 import cash.flow.backend.dto.noted.NotedDTO;
 import cash.flow.backend.services.NoteService;
 
@@ -22,6 +25,13 @@ public class TakeNoteController {
 
     @Autowired
     private NoteService noteService;
+
+    @GetMapping("/change")
+    public ResponseEntity<?> changeMonth(@RequestParam String monthId) {
+        List<DayDTO> changeData = noteService.changeMonth(monthId);
+        
+        return ResponseEntity.ok(changeData);
+    }
     
     @GetMapping
     public ResponseEntity<?> getNoted(@RequestParam String username) {
