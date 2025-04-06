@@ -28,6 +28,7 @@ public class CategoryRepository {
 
             statement.setString(1, Helper.getStringUUID(nId));
 
+            System.out.println("Excecute Statement: " + statement.toString());
             ResultSet resultSet = statement.executeQuery();
             List<Category> categories = new ArrayList<>();
             while (resultSet.next()) {
@@ -38,50 +39,53 @@ public class CategoryRepository {
                 category.setNoteFk(Helper.convertUUID(resultSet.getString("note_fk")));
                 categories.add(category);
             }
-
+            
             return categories;
         } catch (SQLException e) {
             throw new RuntimeException("Error while connecting to the database", e);
         }
     }
-
+    
     public boolean createCategory(Category category) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection
-                    .prepareStatement("INSERT INTO category (c_id, c_name, c_color, note_fk) VALUES (?, ?, ?, ?);");
-
+            .prepareStatement("INSERT INTO category (c_id, c_name, c_color, note_fk) VALUES (?, ?, ?, ?);");
+            
             statement.setString(1, Helper.getStringUUID());
             statement.setString(2, category.getCName());
             statement.setString(3, category.getColor());
             statement.setString(4, Helper.getStringUUID(category.getNoteFk()));
-
+            
+            System.out.println("Excecute Statement: " + statement.toString());
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException("Error while connecting to the database", e);
         }
     }
-
+    
     public boolean updateCategory(Category category) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection
-                    .prepareStatement("UPDATE category SET c_name = ?, c_color = ? WHERE c_id = ?;");
-
+            .prepareStatement("UPDATE category SET c_name = ?, c_color = ? WHERE c_id = ?;");
+            
             statement.setString(1, category.getCName());
             statement.setString(2, category.getColor());
             statement.setString(3, Helper.getStringUUID(category.getCId()));
-
+            
+            System.out.println("Excecute Statement: " + statement.toString());
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException("Error while connecting to the database", e);
         }
     }
-
+    
     public boolean deleteCategory(UUID cId) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM category WHERE c_id = ?");
-
+            
             statement.setString(1, Helper.getStringUUID(cId));
-
+            
+            System.out.println("Excecute Statement: " + statement.toString());
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException("Error while connecting to the database", e);

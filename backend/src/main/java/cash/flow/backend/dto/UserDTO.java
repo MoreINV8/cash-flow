@@ -7,11 +7,11 @@ import lombok.Data;
 public class UserDTO {
     private String username;
     private String email;
-    private String jwtToken;
+    private String jwt_token;
 
     public UserDTO(User user, String jwtToken) {
         this.username = user.getUsername();
         this.email = user.getEmail();
-        this.jwtToken = jwtToken;
+        this.jwt_token = jwtToken;
     }
 }

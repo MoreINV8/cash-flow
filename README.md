@@ -22,5 +22,8 @@ an application usin for record your spending money and visualized your financial
   - implement JWT service to generate and verify token
     - generate __secret key__ in constructor function _or can use hard code secret key_
 
+> [!TIP]
+> if `@RequestBody` doesn't recognize json request body add `@JsonProperty(__property name__)` as [DayCreateDTO.java](/backend/src/main/java/cash/flow/backend/dto/DayCreateDTO.java)
+
 > [!IMPORTANT]
 > every configuration object in java spring boot should be `@Autowired` not `new Object()` __except for model classes__

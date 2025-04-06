@@ -27,6 +27,7 @@ public class NoteRepository {
             statement.setString(1, Helper.getStringUUID());
             statement.setString(2, username);
 
+            System.out.println("Excecute Statement: " + statement.toString());
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -41,6 +42,7 @@ public class NoteRepository {
 
             statement.setString(1, username);
 
+            System.out.println("Excecute Statement: " + statement.toString());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Note note = new Note();
@@ -58,6 +60,8 @@ public class NoteRepository {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM note WHERE n_id = ?;");
             statement.setString(1, nId.toString());
+
+            System.out.println("Excecute Statement: " + statement.toString());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Error while connecting to the database", e);
