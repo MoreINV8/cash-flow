@@ -1,0 +1,15 @@
+.item {
+    cursor: pointer;
+    padding: 8px 20px;
+    transition: all 500ms ease-in-out 200ms;
+    color: #374151;
+
+    &.selected-item {
+        color: #0088FE;
+        background-color: #eff6ff;
+    }
+
+    &:hover {
+        background-color: #f3f4f6;
+    }
+}

@@ -1,0 +1,11 @@
+<div class="dropdown-box">
+    <div  appDisplayBlockSelecter [isDisplay]="showItems()" class="dropdown-display" (click)="handleDisplaySelecterToggle()">
+        <p>{{label()}}</p>
+        <img src="/icons/angle-small-down.svg" />
+    </div>
+    <div appDisplaySelecterItem [isDisplay]="showItems()" class="dropdown-items">
+        @for (l of labelList(); track $index) {
+            <app-selecter-item [index]="$index" [label]="l" [onclick]="handleOnClickItem" [isSelect]="selected() === $index" />
+        }
+    </div>
+</div>

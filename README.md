@@ -26,6 +26,8 @@ an application usin for record your spending money and visualized your financial
 - __Angular__
   - install Angular cli `npm install -g @angular/cli`
   - start Angular project `ng new __project name__`
+  - creating new component `ng g c __path__/__new component`
+  - adding assets to `public` and can use `__asset file__.__file type__`
 - __Nuxt__
   - start Nuxt project `npm create nuxt __project name__`
 

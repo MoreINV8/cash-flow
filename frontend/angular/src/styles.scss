@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'WinkySans';
+    src: url('/fonts/WinkySans-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: 'WinkySans';
+}
