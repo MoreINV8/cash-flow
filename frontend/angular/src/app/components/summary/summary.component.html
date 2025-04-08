@@ -1,0 +1,9 @@
+<div class="summary">
+    <div appColorSvg [filePath]="summaryElement().iconPath" [color]="summaryElement().iconColor" class="icon"
+        [style]="'background-color: ' + summaryElement().iconBackground + ';'"></div>
+    <div style="width: 20px;"></div>
+    <div class="result">
+        <p>{{summaryElement().label}}</p>
+        <p class="value">฿ {{summaryElement().value}}</p>
+    </div>
+</div>

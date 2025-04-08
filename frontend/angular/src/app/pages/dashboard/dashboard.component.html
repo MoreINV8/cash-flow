@@ -1,5 +1,9 @@
 <app-header [title]="'Dashboard'" />
 <div class="content">
     <app-selecter [labelList]="mockMonth()" />
-    <p>a</p>
+    <div class="key-metric">
+        <app-summary [summaryElement]="summaryDecorate().get('total-spend')!" />
+        <app-summary [summaryElement]="summaryDecorate().get('average')!" />
+        <app-summary [summaryElement]="summaryDecorate().get('highest')!" />
+    </div>
 </div>
