@@ -30,8 +30,15 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        String requestURI = request.getRequestURI();
 
-        System.out.println("JWTFilter invoked for: " + request.getRequestURI());
+        // Skip JWTFilter for specific endpoints
+        if ("/api/login".equals(requestURI) || "/api/signup".equals(requestURI)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        System.out.println("JWTFilter invoked for: " + requestURI);
 
         String authHeader = request.getHeader("Authorization");
 
