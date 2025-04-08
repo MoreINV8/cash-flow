@@ -91,6 +91,7 @@ public class DashboardService {
             top5Spending.add(new TopSpendRecordDTO(days.get(i)));
         }
         response.setTop_spend_records(top5Spending);
+        response.percentCalculate();
 
         response.setMonth(month.getYear() + "-" + month.getMonth());
 
