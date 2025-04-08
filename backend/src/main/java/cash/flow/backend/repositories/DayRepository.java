@@ -27,7 +27,7 @@ public class DayRepository {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection
                     .prepareStatement(
-                            "SELECT d.d_id, d.detail, d.transaction_value, d.note, d.noted_date, d.month_fk, c.c_id, c.c_name, c.c_color FROM days AS d LEFT JOIN category AS c ON d.category_fk=c.c_id WHERE month_fk = ?;");
+                            "SELECT d.d_id, d.detail, d.transaction_value, d.note, d.noted_date, d.month_fk, c.c_id, c.c_name, c.c_color FROM days AS d LEFT JOIN category AS c ON d.category_fk=c.c_id WHERE month_fk = ? ORDER BY transaction_value DESC;");
 
             statement.setString(1, Helper.getStringUUID(monthId));
 

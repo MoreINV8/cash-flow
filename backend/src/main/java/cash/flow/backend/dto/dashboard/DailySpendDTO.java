@@ -14,7 +14,7 @@ public class DailySpendDTO {
     public DailySpendDTO(Day day) {
         this.date = day.getDate();
         this.spending = day.getTransactionValue();
-        this.total_items = 0;
+        this.total_items = 1;
     }
 
     public void addTotalSpending(double transactionValue) {
