@@ -1,48 +1,64 @@
 {
-  "month": "2025-04",
-  "summary": {
-    "total_spending": 1234.56,
-    "average_daily_spending": 41.15,
-    "days_tracked": 30,
-    "total_records": 52
-  },
-  "category_breakdown": [
-    {
-      "category": "Food",
-      "total": 500.0,
-      "percentage": 40.5,
-      "record_count": 20
+    "month": "2568-4",
+    "summary": {
+        "total_spending": 8000.0,
+        "average_daily_spending": 4000.0,
+        "total_days": 2,
+        "total_transactions": 3
     },
-    {
-      "category": "Transport",
-      "total": 200.0,
-      "percentage": 16.2,
-      "record_count": 8
-    },
-    {
-      "category": null,
-      "total": 100.0,
-      "percentage": 8.1,
-      "record_count": 4
-    }
-  ],
-  "daily_spending": [
-    { "date": "2025-04-01", "total": 35.0, "total_item":8 },
-    { "date": "2025-04-02", "total": 12.0, "total_item":1 },
-    { "date": "2025-04-30", "total": 50.5, "total_item":5 }
-  ],
-  "top_spending_records": [
-    {
-      "amount": 250.0,
-      "note": "New headphones",
-      "category": "Electronics",
-      "date": "2025-04-12"
-    },
-    {
-      "amount": 180.0,
-      "note": "Grocery stock-up",
-      "category": "Food",
-      "date": "2025-04-05"
-    }
-  ]
+    "category_brakedown": [
+        {
+            "category": "updated category",
+            "color": "#74512D",
+            "total": 5000.0,
+            "percentage": 62.5,
+            "count": 1
+        },
+        {
+            "category": "test category",
+            "color": "#FEBA17",
+            "total": 0.0,
+            "percentage": 0.0,
+            "count": 0
+        },
+        {
+            "category": "uncategorize",
+            "color": null,
+            "total": 3000.0,
+            "percentage": 37.5,
+            "count": 2
+        }
+    ],
+    "daily_spending": [
+        {
+            "date": "2025-04-05",
+            "spending": 1000.0,
+            "total_items": 0
+        },
+        {
+            "date": "2025-04-06",
+            "spending": 7000.0,
+            "total_items": 1
+        }
+    ],
+    "top_spend_records": [
+        {
+            "amount": 2000.0,
+            "category": null,
+            "label": "update spend",
+            "date": "2025-04-06"
+        },
+        {
+            "amount": 5000.0,
+            "category": "updated category",
+            "label": "update spend",
+            "date": "2025-04-06"
+        },
+        {
+            "amount": 1000.0,
+            "category": null,
+            "label": "testing spend",
+            "date": "2025-04-05"
+        }
+    ]
 }

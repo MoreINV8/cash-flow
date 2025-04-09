@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class SvgReaderService {
   public loadSVG = async (filePath: string) => {
+    if (filePath === '') return;
+
     const response = await fetch(filePath);
     const svgContent = await response.text();
 

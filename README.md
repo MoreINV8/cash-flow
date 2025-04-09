@@ -23,7 +23,7 @@ an application usin for record your spending money and visualized your financial
     - generate __secret key__ in constructor function _or can use hard code secret key_
 
 ## How to create Anugular and Nuxt project?
-- __Angular__
+- __Angular__ [video](https://youtu.be/oUmVFHlwZsI?si=OiSah1zEg8VU6khz)
   - install Angular cli `npm install -g @angular/cli`
   - start Angular project `ng new __project name__`
   - creating new component `ng g c __path__/__new component`
@@ -36,3 +36,16 @@ an application usin for record your spending money and visualized your financial
 
 > [!IMPORTANT]
 > every configuration object in java spring boot should be `@Autowired` not `new Object()` __except for model classes__
+
+---
+
+### What have learnt
+- To add opacity to hexadecimal color code is to add 2 digit of hexadecimal at the end
+- To get hexadecimal of opacity
+  - First convert opacity(%) match with 255 (1 byte)
+  - Then convert result to hexadecimal
+    - Remainder method
+    - example convert `x` to hexadecimal
+      - y0 = x % 16
+      - y1 = floor(x / 16) % 16
+      - result will equal ... + y1 + y0

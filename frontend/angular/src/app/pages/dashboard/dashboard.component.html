@@ -1,9 +1,27 @@
 <app-header [title]="'Dashboard'" />
 <div class="content">
-    <app-selecter [labelList]="mockMonth()" />
-    <div class="key-metric">
-        <app-summary [summaryElement]="summaryDecorate().get('total-spend')!" />
-        <app-summary [summaryElement]="summaryDecorate().get('average')!" />
-        <app-summary [summaryElement]="summaryDecorate().get('highest')!" />
-    </div>
+    <ng-container *ngIf="data()">
+        <app-selecter [labelList]="mockMonth()" />
+        <div class="key-metric">
+            <ng-container *ngIf="summaryDecorate().size > 0">
+                <ng-container *ngIf="summaryDecorate().get('total-spend') as totalSpend">
+                    <app-summary [summaryElement]="totalSpend" />
+                </ng-container>
+                <ng-container *ngIf="summaryDecorate().get('average') as average">
+                    <app-summary [summaryElement]="average" />
+                </ng-container>
+                <ng-container *ngIf="summaryDecorate().get('highest') as highest">
+                    <app-summary [summaryElement]="highest" />
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="item-box">
+            <h1>Daily Spending</h1>
+            <app-bar-line-chart [dashboardData]="data()?.daily_spending ?? []" />
+        </div>
+        <div class="item-box">
+            <h1>Categorize Spending</h1>
+            <app-pie-chart [categoryData]="data()?.category_brakedown ?? []" />
+        </div>
+    </ng-container>
 </div>

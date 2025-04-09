@@ -12,7 +12,7 @@ import { SvgReaderService } from '../services/svg-reader.service';
   selector: '[appColorSvg]',
 })
 export class ColorSvgDirective {
-  color = input.required<string>()
+  color = input.required<string>();
   filePath = input.required<string>();
   private svgReader = inject(SvgReaderService);
   private element = inject(ElementRef);
@@ -20,10 +20,13 @@ export class ColorSvgDirective {
 
   addSvgElement = effect(async () => {
     const svgElement = await this.svgReader.loadSVG(this.filePath());
-    svgElement.style.height = '26px';
-    svgElement.style.width = '26px';
-    svgElement.style.fill = this.color();
 
-    this.renderer.appendChild(this.element.nativeElement, svgElement);
+    if (svgElement) {
+      svgElement.style.height = '26px';
+      svgElement.style.width = '26px';
+      svgElement.style.fill = this.color();
+
+      this.renderer.appendChild(this.element.nativeElement, svgElement);
+    }
   });
 }
