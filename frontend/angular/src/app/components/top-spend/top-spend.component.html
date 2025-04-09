@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Label</th>
+        <th>Amount</th>
+        <th>Category</th>
+    </tr>
+    @for (item of tableData(); track $index) {
+    <tr>
+        <td>{{item.date}}</td>
+        <td>{{item.label}}</td>
+        <td>{{item.amount}}</td>
+        <td>{{item.category != null ? item.category : 'uncategorize'}}</td>
+    </tr>
+    }
+</table>

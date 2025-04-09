@@ -11,6 +11,7 @@ import { DashboardSummaryElement } from '../../models/dashboard/dashboard-summar
 import { BarLineChartComponent } from '../../components/bar-line-chart/bar-line-chart.component';
 import { CommonModule } from '@angular/common';
 import { PieChartComponent } from '../../components/pie-chart/pie-chart.component';
+import { TopSpendComponent } from '../../components/top-spend/top-spend.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +22,7 @@ import { PieChartComponent } from '../../components/pie-chart/pie-chart.componen
     BarLineChartComponent,
     CommonModule,
     PieChartComponent,
+    TopSpendComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

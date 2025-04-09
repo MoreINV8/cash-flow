@@ -23,5 +23,9 @@
             <h1>Categorize Spending</h1>
             <app-pie-chart [categoryData]="data()?.category_brakedown ?? []" />
         </div>
+        <div class="item-box">
+            <h1>Top 5 Expenses</h1>
+            <app-top-spend [tableData]="data()!.top_spend_records"/>
+        </div>
     </ng-container>
 </div>

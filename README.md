@@ -49,3 +49,4 @@ an application usin for record your spending money and visualized your financial
       - y0 = x % 16
       - y1 = floor(x / 16) % 16
       - result will equal ... + y1 + y0
+- To use `<tr>` style border need to add `border-collapse: collapse;` in table style first
