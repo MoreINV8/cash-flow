@@ -12,6 +12,7 @@ import { BarLineChartComponent } from '../../components/bar-line-chart/bar-line-
 import { CommonModule } from '@angular/common';
 import { PieChartComponent } from '../../components/pie-chart/pie-chart.component';
 import { TopSpendComponent } from '../../components/top-spend/top-spend.component';
+import { Month } from '../../models/month.type';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,12 +29,15 @@ import { TopSpendComponent } from '../../components/top-spend/top-spend.componen
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  mockMonth = signal<string[]>([]);
   private backend = inject(BackendConnectService);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  
   private user: User | null = null;
+  
+  months = signal<Month[]>([]);
+  selectedMonth = signal(0);
   data = signal<Dashboard | null>(null);
   summaryDecorate = signal<Map<string, DashboardSummaryElement>>(new Map());
-  private changeDetectorRef = inject(ChangeDetectorRef)
 
   constructor(private mock: MockDataService) {
   }
@@ -61,7 +65,6 @@ export class DashboardComponent implements OnInit {
       value: 0,
     });
 
-    this.mockMonth.set(this.mock.mockMonth());
     try {
       const user = await lastValueFrom(
         this.backend.postLogin({ username: 'time', password: 't123' })
@@ -75,12 +78,9 @@ export class DashboardComponent implements OnInit {
       }
       
       const data = await lastValueFrom(
-        this.backend.getChangeDashboard({
-          user: this.user,
-          monthId: 'ddb6ef9a10f4488fbff8383de03551ba',
-        })
+        this.backend.getDashboard(user)
       );
-      this.data.set(data);
+      this.data.set(data.latest_month_dashboard);
       console.log(data);
 
       if (this.data() == null) {
@@ -88,27 +88,61 @@ export class DashboardComponent implements OnInit {
         return;
       }
 
-      const totalSpendElement = this.summaryDecorate().get('total-spend');
-      if (totalSpendElement) {
-        totalSpendElement.value = this.data()?.summary.total_spending ?? 0;
-      }
-      const averageElement = this.summaryDecorate().get('average');
-      if (averageElement) {
-        averageElement.value = this.data()?.summary.average_daily_spending ?? 0;
-      }
-      const highestElement = this.summaryDecorate().get('highest');
-      if (highestElement) {
-        highestElement.value =
-          this.data()?.top_spend_records.at(0)?.amount ?? 0;
-      }
+      data.noted_month.map(value => {
+        this.months().push(value);
+      })
 
-      console.log(this.summaryDecorate());
+      const summary = this.data()?.summary;
+      this.setKeyValue(summary?.total_spending, summary?.average_daily_spending, this.data()?.top_spend_records.at(0)?.amount);
 
       this.changeDetectorRef.detectChanges();
 
-      return;
     } catch (error) {
       console.error('Error:', error);
     }
   }
+
+  private setKeyValue(spend:number = 0, average:number=0, highest:number=0) {
+    const totalSpendElement = this.summaryDecorate().get('total-spend');
+    if (totalSpendElement) {
+      totalSpendElement.value = spend;
+    }
+    const averageElement = this.summaryDecorate().get('average');
+    if (averageElement) {
+      averageElement.value = average;
+    }
+    const highestElement = this.summaryDecorate().get('highest');
+    if (highestElement) {
+      highestElement.value = highest;
+    }
+  }
+
+  handleChangeItem = async (mId: string, selected: number) => {
+    try {
+      // set null to notify angular to get change value
+      this.data.set(null)
+
+      const newDashboard = await lastValueFrom(
+        this.backend.getChangeDashboard({ user: this.user!, monthId: mId })
+      );
+
+      this.data.set(newDashboard);
+      this.selectedMonth.set(selected);
+
+      console.log('new data!!!', this.data())
+
+      const summary = this.data()?.summary;
+      this.setKeyValue(
+        summary?.total_spending,
+        summary?.average_daily_spending,
+        this.data()?.top_spend_records.at(0)?.amount
+      );
+
+      this.changeDetectorRef.detectChanges();
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
 }

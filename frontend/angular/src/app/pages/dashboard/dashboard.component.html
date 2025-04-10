@@ -1,7 +1,7 @@
 <app-header [title]="'Dashboard'" />
 <div class="content">
     <ng-container *ngIf="data()">
-        <app-selecter [labelList]="mockMonth()" />
+        <app-selecter [monthList]="months()" [changeItemHandler]="handleChangeItem" [label]="selectedMonth()" />
         <div class="key-metric">
             <ng-container *ngIf="summaryDecorate().size > 0">
                 <ng-container *ngIf="summaryDecorate().get('total-spend') as totalSpend">

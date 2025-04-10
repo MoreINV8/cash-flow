@@ -7,7 +7,7 @@ public class CategoryBrakedownDTO {
     private String category;
     private String color;
     private double total;
-    private double percentage;
+    private double percentage = 0;
     private int count;
 
     public CategoryBrakedownDTO(String category, String color) {

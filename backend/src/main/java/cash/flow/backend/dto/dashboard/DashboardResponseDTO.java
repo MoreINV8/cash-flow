@@ -17,6 +17,9 @@ public class DashboardResponseDTO {
     }
 
     public void percentCalculate() {
+        if (this.summary.getTotal_spending() == 0) {
+            return;
+        }
         for (var category : this.category_brakedown) {
             double percent = category.getTotal() * 100 / this.summary.getTotal_spending();
 
