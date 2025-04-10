@@ -13,7 +13,6 @@ import cash.flow.backend.dto.dashboard.CategoryBrakedownDTO;
 import cash.flow.backend.dto.dashboard.DailySpendDTO;
 import cash.flow.backend.dto.dashboard.DashboardResponseDTO;
 import cash.flow.backend.dto.dashboard.TopSpendRecordDTO;
-import cash.flow.backend.dto.noted.MonthDTO;
 import cash.flow.backend.models.Category;
 import cash.flow.backend.models.Day;
 import cash.flow.backend.models.Month;
@@ -38,7 +37,7 @@ public class DashboardService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Map<String, ?> getInitDashboard(String username) {
+    public List<Map<String, Object>> getInitDashboard(String username) {
         Note note = noteRepository.getNoteByUsername(username);
 
         if (note == null) {
@@ -51,13 +50,16 @@ public class DashboardService {
             return null;
         }
 
-        Month latestMonth = months.get(0);
+        List<Map<String, Object>> res = new ArrayList<>();
+        for (var month : months) {
+            Map<String, Object> resMap = new HashMap<>();
+            resMap.put("noted_month", month);
+            resMap.put("month_dashboard", getDashboardData(month, note.getNId()));
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("noted_month", months.stream().map(month -> new MonthDTO(month)).toList());
-        response.put("latest_month_dashboard", getDashboardData(latestMonth, note.getNId()));
+            res.add(resMap);
+        }
 
-        return response;
+        return res;
     }
 
     private DashboardResponseDTO getDashboardData(Month month, UUID noteId) {
@@ -122,17 +124,6 @@ public class DashboardService {
         response.setDaily_spending(dailySpend.values().stream().toList());
 
         return response;
-    }
-
-    public DashboardResponseDTO changeDashboard(String monthId, String username) {
-        Note note = noteRepository.getNoteByUsername(username);
-        Month month = monthRepository.getMonthByMId(Helper.convertUUID(monthId));
-
-        if (month == null || note == null) {
-            return null;
-        }
-
-        return getDashboardData(month, note.getNId());
     }
 
 }

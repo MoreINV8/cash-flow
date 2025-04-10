@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { PieChartComponent } from '../../components/pie-chart/pie-chart.component';
 import { TopSpendComponent } from '../../components/top-spend/top-spend.component';
 import { Month } from '../../models/month.type';
+import { DashboardWithMonth } from '../../models/dashboard-with-month.type';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,6 +39,7 @@ export class DashboardComponent implements OnInit {
   selectedMonth = signal(0);
   data = signal<Dashboard | null>(null);
   summaryDecorate = signal<Map<string, DashboardSummaryElement>>(new Map());
+  mainData = signal<DashboardWithMonth[]>([]);
 
   constructor(private mock: MockDataService) {
   }
@@ -80,7 +82,12 @@ export class DashboardComponent implements OnInit {
       const data = await lastValueFrom(
         this.backend.getDashboard(user)
       );
-      this.data.set(data.latest_month_dashboard);
+
+      this.mainData.set(data);
+
+      if (data.length === 0) { return; } // handle no month ex. pop up to create? plank page?
+
+      this.data.set(this.mainData().at(this.selectedMonth())?.month_dashboard ?? null);
       console.log(data);
 
       if (this.data() == null) {
@@ -88,8 +95,8 @@ export class DashboardComponent implements OnInit {
         return;
       }
 
-      data.noted_month.map(value => {
-        this.months().push(value);
+      this.mainData().map(value => {
+        this.months().push(value.noted_month);
       })
 
       const summary = this.data()?.summary;
@@ -122,14 +129,8 @@ export class DashboardComponent implements OnInit {
       // set null to notify angular to get change value
       this.data.set(null)
 
-      const newDashboard = await lastValueFrom(
-        this.backend.getChangeDashboard({ user: this.user!, monthId: mId })
-      );
-
-      this.data.set(newDashboard);
       this.selectedMonth.set(selected);
-
-      console.log('new data!!!', this.data())
+      this.data.set(this.mainData().at(this.selectedMonth())!.month_dashboard);
 
       const summary = this.data()?.summary;
       this.setKeyValue(

@@ -17,11 +17,11 @@
         </div>
         <div class="item-box">
             <h1>Daily Spending</h1>
-            <app-bar-line-chart [dashboardData]="data()?.daily_spending ?? []" />
+            <app-bar-line-chart [inputDashboardData]="data()?.daily_spending ?? []" />
         </div>
         <div class="item-box">
             <h1>Categorize Spending</h1>
-            <app-pie-chart [categoryData]="data()?.category_brakedown ?? []" />
+            <app-pie-chart [categoryInputData]="data()?.category_brakedown ?? []" />
         </div>
         <div class="item-box">
             <h1>Top 5 Expenses</h1>

@@ -39,7 +39,7 @@ export class BackendConnectService {
     console.log('Headers:', headers.get('Authorization')); // Log the Authorization header
 
     return this.http
-      .get<DashboardWithMonth>(
+      .get<DashboardWithMonth[]>(
         this.baseUrl + `/dashboard?username=${user.username}`,
         {
           headers,
@@ -53,32 +53,4 @@ export class BackendConnectService {
       );
   }
 
-  public getChangeDashboard({
-    user,
-    monthId,
-  }: {
-    user: User;
-    monthId: string;
-  }) {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${user.jwt_token}`, // Ensure this is not null or undefined
-    });
-
-    console.log('Headers:', headers.get('Authorization')); // Log the Authorization header
-
-    return this.http
-      .get<Dashboard>(
-        this.baseUrl +
-          `/dashboard/specific?username=${user.username}&monthId=${monthId}`,
-        {
-          headers,
-        }
-      )
-      .pipe(
-        catchError((err) => {
-          console.log(err);
-          throw err;
-        })
-      );
-  }
 }

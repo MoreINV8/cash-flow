@@ -1,4 +1,12 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  OnChanges,
+  OnInit,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
 import { DashboardCategory } from '../../models/dashboard/dashboard-category.type';
 import { Chart } from 'chart.js';
 import { HelperService } from '../../services/helper.service';
@@ -9,11 +17,12 @@ import { HelperService } from '../../services/helper.service';
   templateUrl: './pie-chart.component.html',
   styleUrl: './pie-chart.component.scss',
 })
-export class PieChartComponent implements OnInit {
+export class PieChartComponent implements OnInit, OnChanges {
   helper = inject(HelperService);
 
-  categoryData = input.required<DashboardCategory[]>();
+  categoryInputData = input.required<DashboardCategory[]>();
 
+  categoryData = signal<DashboardCategory[]>([]);
   labelData = signal<string[]>([]);
   actualData = signal<number[]>([]);
   mainColorData = signal<string[]>([]);
@@ -21,23 +30,32 @@ export class PieChartComponent implements OnInit {
   itemCountData = signal<number[]>([]);
   percentageData = signal<number[]>([]);
 
+  private chart: Chart | null = null;
+
   ngOnInit(): void {
-    this.categoryData().map((value) => {
-      this.actualData().push(value.total);
-      this.mainColorData().push(value.color ?? '#eff6ff');
-      this.subColorData().push(
-        value.color != null ? this.helper.changeHexOpacity(value.color, 70)! : '#334155'
-      );
-      this.labelData().push(value.category);
-      this.itemCountData().push(value.count);
-      this.percentageData().push(value.percentage);
-    });
+    this.categoryData.set(this.categoryInputData());
+    this.setData();
 
     this.generatePieChart();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['categoryInputData'] && !changes['categoryInputData'].firstChange) {
+      this.clearData();
+
+      this.categoryData.set(changes['categoryInputData'].currentValue);
+      this.setData()
+
+      this.generatePieChart();
+    }
+  }
+
   generatePieChart() {
-    const chart = new Chart('pie-chart', {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart('pie-chart', {
       type: 'doughnut',
       data: {
         labels: this.labelData(),
@@ -79,6 +97,30 @@ export class PieChartComponent implements OnInit {
           },
         },
       },
+    });
+  }
+
+  private clearData() {
+    this.labelData.set([]);
+    this.actualData.set([]);
+    this.mainColorData.set([]);
+    this.subColorData.set([]);
+    this.itemCountData.set([]);
+    this.percentageData.set([]);
+  }
+
+  private setData() {
+    this.categoryData().map((value) => {
+      this.actualData().push(value.total);
+      this.mainColorData().push(value.color ?? '#eff6ff');
+      this.subColorData().push(
+        value.color != null
+          ? this.helper.changeHexOpacity(value.color, 70)!
+          : '#334155'
+      );
+      this.labelData().push(value.category);
+      this.itemCountData().push(value.count);
+      this.percentageData().push(value.percentage);
     });
   }
 }
