@@ -1,4 +1,5 @@
 <div class="header">
     <h1>{{title()}}</h1>
-    <button><img src="/icons/menu-burger.svg" /></button>
+    <button (click)="handleOpenSidebar()"><img src="/icons/menu-burger.svg" /></button>
 </div>
+<app-sidebar [at]="at()" [inputIsOpen]="isSidebarOpen()" [closeSidebar]="handleCloseSidebar"></app-sidebar>

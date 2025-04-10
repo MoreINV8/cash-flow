@@ -13,6 +13,7 @@ import { SvgReaderService } from '../services/svg-reader.service';
 })
 export class ColorSvgDirective {
   color = input.required<string>();
+  size = input<number>(26);
   filePath = input.required<string>();
   private svgReader = inject(SvgReaderService);
   private element = inject(ElementRef);
@@ -22,8 +23,8 @@ export class ColorSvgDirective {
     const svgElement = await this.svgReader.loadSVG(this.filePath());
 
     if (svgElement) {
-      svgElement.style.height = '26px';
-      svgElement.style.width = '26px';
+      svgElement.style.height = `${this.size()}px`;
+      svgElement.style.width = `${this.size()}px`;
       svgElement.style.fill = this.color();
 
       this.renderer.appendChild(this.element.nativeElement, svgElement);

@@ -1,0 +1,20 @@
+<div class="sidebar-bg" (click)="closeSidebar()($event)" appRewidth longMaxLength="100%" shortMaxLength="0px" [triggerShortToLong]="inputIsOpen()">
+    <div class="sidebar">
+        <div class="navigate">
+            <h1>Cash Flow</h1>
+            @for (item of sidebarItems(); track $index) {
+                <div class="sidebar-item" appChangeBgColor [color]="'#dbeafe'" [when]="$index === at()" >
+                    <div appColorSvg [filePath]="item.iconPath" [color]="$index === at() ? '#2563eb' : '#4b5563'" [size]="24"></div>
+                    <p appChangeTextColor [color]="'#2563eb'" [when]="$index === at()">{{item.lable}}</p>
+                </div>
+            }
+        </div>
+        <div>
+            <div class="horizontal-line"></div>
+            <div class="sidebar-item" style="margin-bottom: 40px;">
+                <div appColorSvg [filePath]="'/icons/exit.svg'" [color]="'#4b5563'" [size]="24"></div>
+                <p>Logout</p>
+            </div>
+        </div>
+    </div>
+</div>
