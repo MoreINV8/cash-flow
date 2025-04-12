@@ -10,4 +10,12 @@ export const routes: Routes = [
       );
     },
   },
+  {
+    path: 'note',
+    loadComponent: () => {
+      return import('./pages/note/note.component').then(
+        (m) => m.NoteComponent
+      )
+    }
+  }
 ];

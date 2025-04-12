@@ -1,0 +1,26 @@
+<div class="popup-bg" appChangeScale [largeScale]="1" [smallScale]="0" [triggerLarge]="isOpen()" (click)="closeByBg($event)">
+    <div class="popup">
+        <ng-container *ngIf="config != null">
+            <h2>{{config().title}}</h2>
+
+            <p>&emsp;{{config().description ?? ''}}</p>
+            
+            <form>
+
+                @for (item of config().inputField; track $index) {
+                    <label [for]="`${config().title}-${item.title}`">{{item.title}}</label>
+                    <input [id]="`${config().title}-${item.title}`" [type]="item.type" [placeholder]="item.placeholder ?? ''"/>     
+                }
+
+                <div class="clickable">
+                    <ng-container *ngIf="config().button?.useCancelButton ?? true">
+                        <div class="cancel" (click)="config().handleClose($event)">{{config().button?.cancelButtonLabel ?? 'Cancel'}}</div>
+                    </ng-container>
+                    <ng-container *ngIf="config().button?.useSaveButton ?? true">
+                        <div class="save">{{config().button?.saveButtonLabel ?? 'Save'}}</div>
+                    </ng-container>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+</div>

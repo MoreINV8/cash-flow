@@ -3,7 +3,7 @@
         <div class="navigate">
             <h1>Cash Flow</h1>
             @for (item of sidebarItems(); track $index) {
-                <div class="sidebar-item" appChangeBgColor [color]="'#dbeafe'" [when]="$index === at()" >
+                <div class="sidebar-item" appChangeBgColor [color]="'#dbeafe'" [when]="$index === at()" [routerLink]="item.path">
                     <div appColorSvg [filePath]="item.iconPath" [color]="$index === at() ? '#2563eb' : '#4b5563'" [size]="24"></div>
                     <p appChangeTextColor [color]="'#2563eb'" [when]="$index === at()">{{item.lable}}</p>
                 </div>
