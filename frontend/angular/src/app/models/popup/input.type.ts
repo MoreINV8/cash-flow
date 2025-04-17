@@ -1,3 +1,6 @@
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { Category } from '../category.type';
+
 export type PopupInput = {
   type:
     | 'button'
@@ -43,7 +46,14 @@ export type PopupInput = {
     | 'tel'
     | 'time'
     | 'url'
-    | 'week';
+    | 'week'
+    | 'option';
   title: string;
   placeholder: string | undefined;
+  require: boolean;
+  optionItems: Category[] | undefined;
+  default: any | undefined;
+  validator:
+    | ((control: AbstractControl) => ValidationErrors | null)
+    | undefined;
 };

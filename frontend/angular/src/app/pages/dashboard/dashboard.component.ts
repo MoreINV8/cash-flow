@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { SelecterComponent } from '../../components/selecter/selecter.component';
-import { MockDataService } from '../../services/mock-data.service';
 import { BackendConnectService } from '../../services/backend-connect.service';
 import { User } from '../../models/user.type';
 import { Dashboard } from '../../models/dashboard/dashboard.type';
@@ -40,9 +39,6 @@ export class DashboardComponent implements OnInit {
   data = signal<Dashboard | null>(null);
   summaryDecorate = signal<Map<string, DashboardSummaryElement>>(new Map());
   mainData = signal<DashboardWithMonth[]>([]);
-
-  constructor(private mock: MockDataService) {
-  }
   
   async ngOnInit(): Promise<void> {
     this.summaryDecorate().set('total-spend', {

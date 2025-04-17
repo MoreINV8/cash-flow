@@ -1,3 +1,30 @@
-<app-header [title]="'Note'" [at]="2"/>
-<app-popup [config]="getCreatePopup()" [isOpen]="createPopup()"/>
-<button (click)="handleOpenCreate()"></button>
+<app-header [title]="'Note'" [at]="2" />
+<div class="content">
+    <ng-container *ngIf="noteData()">
+
+        <app-popup [config]="getCreatePopup()" [isOpen]="createPopup()" />
+        <ng-container *ngIf="updateDay">
+            <app-popup [config]="getUpadatePopup(updateDay()!)" [isOpen]="updatePopup()"  />
+        </ng-container>
+
+        <div class="top">
+            <div class="month">
+                <img src="/icons/angle-left.svg" (click)="handleLeftBracket()"/>
+                <h2>{{getMonth()}}</h2>
+                <img src="/icons/angle-right.svg" (click)="hadleRightBracket()"/>
+            </div>
+
+            <div class="add-record" (click)="handleOpenCreate()">
+                <div appColorSvg filePath="/icons/plus.svg" color="white" [size]="12"></div>
+                <p>New Record</p>
+            </div>
+        </div>
+
+        <div class="horizontal-line"></div>
+
+        <ng-container *ngIf="noteData()?.at(atMonth())">
+            <app-note-table [days]="noteData()!.at(atMonth())!.days" [handleDelete]="handleDelete"
+                [handleUpdate]="handleOpenUpdate" />
+        </ng-container>
+    </ng-container>
+</div>

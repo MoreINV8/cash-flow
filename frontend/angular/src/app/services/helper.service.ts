@@ -75,9 +75,9 @@ export class HelperService {
     return hexadecimal;
   }
 
-  public convertMonth(month: Month) {
-    if (month.month > 12 || month.month < 1) return;
+  public convertMonth(month: Month | undefined) {
+    if (!month || (month.month > 12 || month.month < 1)) return;
 
-    return `${this.MONTH.at(month.month - 1)} ${month.year}`;
+    return `${this.MONTH.at(month!.month - 1)} ${month!.year}`;
   }
 }

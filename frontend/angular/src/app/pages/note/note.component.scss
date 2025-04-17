@@ -1,0 +1,60 @@
+.content {
+    padding: 10px;
+
+    .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+
+        .month {
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 16px;
+                height: 16px;
+                transition: all 300ms ease-in-out 100ms;
+                cursor: pointer;
+
+                &:hover {
+                    scale: 1.2;
+                }
+            }
+
+            h2 {
+                margin-left: 20px;
+                margin-right: 20px;
+                font-weight: 100;
+            }
+        }
+
+        .add-record {
+            height: fit-content;
+            padding: 8px 16px;
+            background-color: #2563eb;
+            display: flex;
+            align-items: center;
+            border-radius: 6px;
+            transition: all 300ms ease-in-out;
+            cursor: pointer;
+            
+            &:hover {
+                background-color: #1d4ed8;
+            }
+            
+            p {
+                margin: 0;
+                margin-left: 10px;
+                color: white;
+            }
+        }
+    }
+
+    .horizontal-line {
+        width: 100%;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    
+}

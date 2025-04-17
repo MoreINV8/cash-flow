@@ -1,0 +1,21 @@
+<table>
+    <tr>
+        <th>DATE</th>
+        <th>LABEL</th>
+        <th>CATEGORY</th>
+        <th>AMOUNT</th>
+        <th>ACTION</th>
+    </tr>
+        @for (item of days(); track item.d_id) {
+        <tr>
+            <td>{{item.date}}</td>
+            <td>{{item.note}}</td>
+            <td>{{item.category_name ?? 'undefind'}}</td>
+            <td>{{item.transaction_value.toFixed(2)}}</td>
+            <td class="button">
+                <div appColorSvg filePath="/icons/pencil.svg" color="#2563eb" [size]="20" (click)="handleUpdate()(item)"></div>
+                <div appColorSvg filePath="/icons/trash.svg" color="#dc2626" [size]="20"></div>
+            </td>
+        </tr>
+        }
+</table>

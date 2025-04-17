@@ -1,7 +1,9 @@
 package cash.flow.backend.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,32 +47,26 @@ public class NoteService {
         }
 
         List<Month> months = monthRepository.getMonthByNId(note.getNId(), 2);
-        List<Day> days = new ArrayList<>();
-        if (!months.isEmpty()) {
-            Month latestMonth = months.get(0);
-            System.out.println("Latest Month: " + latestMonth);
-            days = dayRepository.getDaysByMonth(latestMonth.getMId());
+        
+        List<Map<String, Object>> response = new ArrayList<>();
 
-            System.out.println("Days: " + days);
+        for (var m : months) {
+            Map<String, Object> item = new HashMap<>();
+
+            List<DayDTO> days = dayRepository.getDaysByMonth(m.getMId()).stream().map(day -> new DayDTO(day)).toList();
+
+            item.put("month", new MonthDTO(m));
+            item.put("days", days);
+
+            response.add(item);
         }
 
         List<Category> categories = categoryRepository.getCategoriesByNote(note.getNId());
 
-        return getNotedDTO(months, days, categories);
+        return getNotedDTO(response, categories);
     }
 
-    private NotedDTO getNotedDTO(List<Month> months, List<Day> days, List<Category> categories) {
-        List<MonthDTO> monthDTOs = months.stream().map(month -> {
-            MonthDTO monthDTO = new MonthDTO(month);
-
-            return monthDTO;
-        }).toList();
-
-        List<DayDTO> dayDTOs = days.stream().map(day -> {
-            DayDTO dayDTO = new DayDTO(day);
-
-            return dayDTO;
-        }).toList();
+    private NotedDTO getNotedDTO(List<Map<String, Object>> lastest2Month, List<Category> categories) {
 
         List<CategoryDTO> categoryDTOs = categories.stream().map(category -> {
             CategoryDTO categoryDTO = new CategoryDTO(category);
@@ -79,8 +75,7 @@ public class NoteService {
         }).toList();
 
         NotedDTO notedDTO = new NotedDTO();
-        notedDTO.setLatest_2_months(monthDTOs);
-        notedDTO.setLatest_month_days(dayDTOs);
+        notedDTO.setLatest_2_months(lastest2Month);
         notedDTO.setCategories(categoryDTOs);
         return notedDTO;
     }
